@@ -24,11 +24,17 @@ yarn create-db # Estimated runtime: 1 second
 ### Creating tables
 
 ```bash
-yarn knex migrate:latest # Estimated runtime: 1 minute
+yarn knex migrate:latest # Estimated runtime: 3 seconds
 ```
 
 ### Dropping database
 
 ```bash
 yarn drop-db # Estimated runtime: 1 second
+```
+
+### Creating a new migration
+
+```bash
+yarn knex migrate:make YOUR_MIGRATION_NAME
 ```
