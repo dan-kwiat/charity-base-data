@@ -2,7 +2,7 @@
 
 ## Scraping Social Media Handle from Charity Websites
 
-Extracts twitter and facebook handles from charity websites.  Also cleans the charity website field in the CC table.
+Extracts twitter, facebook & instagram handles from charity websites. Also cleans the charity website field in the CC table.
 
 ### Requirements
 
@@ -20,3 +20,10 @@ Extracts twitter and facebook handles from charity websites.  Also cleans the ch
 - `yarn import-social-handles`
 
 Estimated runtime: 6 hours
+
+You may want to play around with the offset & timeout env vars:
+
+```bash
+OFFSET=0
+REQUEST_TIMEOUT=5000
+```

@@ -1,12 +1,12 @@
-require('dotenv').config()
-const streamBatchPromise = require('stream-batch-promise')
-const getProgressBar = require('./lib/progress')
-const log = require('./lib/logger')
-const timebox = require('./lib/timebox')
-const { TimeoutError } = require('./lib/errors')
-const fetchData = require('./fetch-data')
-const memwatch = require('@airbnb/node-memwatch')
-const asyncPool = require('tiny-async-pool')
+require("dotenv").config()
+const streamBatchPromise = require("stream-batch-promise")
+const getProgressBar = require("./lib/progress")
+const log = require("./lib/logger")
+const timebox = require("./lib/timebox")
+const { TimeoutError } = require("./lib/errors")
+const fetchData = require("./fetch-data")
+// const memwatch = require("@airbnb/node-memwatch")
+const asyncPool = require("tiny-async-pool")
 
 const {
   BATCH_SIZE,
@@ -20,8 +20,8 @@ const {
   REQUEST_CONCURRENCY,
 } = process.env
 
-const knex = require('knex')({
-  client: 'mysql2',
+const knex = require("knex")({
+  client: "mysql2",
   connection: {
     host: DB_HOST,
     user: DB_USER,
@@ -31,50 +31,44 @@ const knex = require('knex')({
   // debug: true,
 })
 
-const PROGRESS_BAR = getProgressBar('Progress')
+const PROGRESS_BAR = getProgressBar("Progress")
 
-let hd = new memwatch.HeapDiff()
-let heapDiff
-memwatch.on('stats', function(stats) {
-  heapDiff = hd.end()
-  hd = new memwatch.HeapDiff()
-})
-process.on('exit', (code) => {
-  log.info(`About to exit with code: ${code}`)
-  log.info('Heap diff:')
-  log.info(JSON.stringify(heapDiff, null, 2))
-})
+// let hd = new memwatch.HeapDiff()
+// let heapDiff
+// memwatch.on("stats", function (stats) {
+//   heapDiff = hd.end()
+//   hd = new memwatch.HeapDiff()
+// })
+// process.on("exit", (code) => {
+//   log.info(`About to exit with code: ${code}`)
+//   log.info("Heap diff:")
+//   log.info(JSON.stringify(heapDiff, null, 2))
+// })
 
-const update = async arr => {
+const update = async (arr) => {
   const updateQueries = arr
-    .filter(x => x.url !== x.cleanUrl)
-    .map(({
-      id,
-      url,
-      cleanUrl,
-      twitter,
-      facebook,
-    }) => (
-      knex(TABLE_MAIN_CHARITY)
-        .where('regno', '=', id)
-        .update({ web: cleanUrl })
-    ))
+    .filter((x) => x.url !== x.cleanUrl)
+    .map(({ id, url, cleanUrl, twitter, facebook, instagram }) =>
+      knex(TABLE_MAIN_CHARITY).where("regno", "=", id).update({ web: cleanUrl })
+    )
   const insertQueries = arr
-    .filter(({ twitter, facebook }) => twitter || facebook)
-    .map(({ id, twitter, facebook }) => (
-      knex(TABLE_SOCIAL)
-        .insert({
-          regno: id,
-          twitter,
-          facebook,
-        })
-    ))
+    .filter(
+      ({ twitter, facebook, instagram }) => twitter || facebook || instagram
+    )
+    .map(({ id, twitter, facebook, instagram }) =>
+      knex(TABLE_SOCIAL).insert({
+        regno: id,
+        twitter,
+        facebook,
+        instagram,
+      })
+    )
   const allQueries = [...updateQueries, ...insertQueries]
   if (allQueries.length === 0) {
     return
   }
-  const transaction = knex.transaction(trx => {
-    return Promise.all(allQueries.map(x => x.transacting(trx)))
+  const transaction = knex.transaction((trx) => {
+    return Promise.all(allQueries.map((x) => x.transacting(trx)))
       .then(trx.commit)
       .catch(trx.rollback)
   })
@@ -82,7 +76,7 @@ const update = async arr => {
     await timebox(transaction)
   } catch (e) {
     if (e instanceof TimeoutError) {
-      log.error('Update operation timed out: ', e.message)
+      log.error("Update operation timed out: ", e.message)
       return null
     } else {
       throw e
@@ -98,10 +92,10 @@ const batchHandler = (items, counter) => {
         items,
         fetchData
       )
-      await update(dataArr.filter(x => x)) // todo: update website even if no data returned
+      await update(dataArr.filter((x) => x)) // todo: update website even if no data returned
       PROGRESS_BAR.update(counter)
       resolve()
-    } catch(e) {
+    } catch (e) {
       reject(e)
     }
   })
@@ -109,14 +103,22 @@ const batchHandler = (items, counter) => {
 
 const f = async () => {
   try {
-    log.info(`Cleaning url data in '${TABLE_MAIN_CHARITY}' and inserting social handles into '${TABLE_SOCIAL}'`)
+    log.info(
+      `Cleaning url data in '${TABLE_MAIN_CHARITY}' and inserting social handles into '${TABLE_SOCIAL}'`
+    )
 
     const countQuery = knex(TABLE_MAIN_CHARITY)
-      .leftJoin(TABLE_SOCIAL, `${TABLE_MAIN_CHARITY}.regno`, '=', `${TABLE_SOCIAL}.regno`)
+      .leftJoin(
+        TABLE_SOCIAL,
+        `${TABLE_MAIN_CHARITY}.regno`,
+        "=",
+        `${TABLE_SOCIAL}.regno`
+      )
       .whereNull(`${TABLE_SOCIAL}.twitter`)
       .whereNull(`${TABLE_SOCIAL}.facebook`)
+      .whereNull(`${TABLE_SOCIAL}.instagram`)
       .whereNotNull(`${TABLE_MAIN_CHARITY}.web`)
-      .count('*', { as: 'numCharities' })
+      .count("*", { as: "numCharities" })
 
     const { numCharities } = (await countQuery)[0]
 
@@ -126,32 +128,34 @@ const f = async () => {
         url: `${TABLE_MAIN_CHARITY}.web`,
       })
       .from(TABLE_MAIN_CHARITY)
-      .leftJoin(TABLE_SOCIAL, `${TABLE_MAIN_CHARITY}.regno`, '=', `${TABLE_SOCIAL}.regno`)
-      .orderBy(`${TABLE_MAIN_CHARITY}.regno`, 'asc')
+      .leftJoin(
+        TABLE_SOCIAL,
+        `${TABLE_MAIN_CHARITY}.regno`,
+        "=",
+        `${TABLE_SOCIAL}.regno`
+      )
+      .orderBy(`${TABLE_MAIN_CHARITY}.regno`, "asc")
       .offset(OFFSET)
       .whereNull(`${TABLE_SOCIAL}.twitter`)
       .whereNull(`${TABLE_SOCIAL}.facebook`)
+      .whereNull(`${TABLE_SOCIAL}.instagram`)
       .whereNotNull(`${TABLE_MAIN_CHARITY}.web`)
 
     const queryStream = charitiesToUpdate.stream()
-    queryStream.on('error', err => {
-      log.error('Query stream error')
+    queryStream.on("error", (err) => {
+      log.error("Query stream error")
       log.error(err)
     })
 
     PROGRESS_BAR.start(numCharities - OFFSET, 0)
-    const total = await streamBatchPromise(
-      queryStream,
-      batchHandler,
-      {
-        batchSize: BATCH_SIZE,
-      }
-    )
+    const total = await streamBatchPromise(queryStream, batchHandler, {
+      batchSize: BATCH_SIZE,
+    })
     PROGRESS_BAR.update(total)
     PROGRESS_BAR.stop()
     log.info(`Successfully streamed through ${total} items`)
     await knex.destroy()
-  } catch(e) {
+  } catch (e) {
     log.error(e)
     process.exit()
   }
