@@ -1,4 +1,5 @@
 const s3 = require("./lib/s3")
+const log = require("./lib/logger")
 
 const { S3_BUCKET, S3_PATH } = process.env
 

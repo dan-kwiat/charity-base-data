@@ -22,3 +22,37 @@ Before running this script the database must be initiated and social media handl
 - `yarn import-social-avatars`
 
 Estimated runtime: 3 hrs.
+
+### AWS Credentials
+
+The IAM user (defined by S3_ACCESS_KEY_ID env var) should have the following access management policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObjectAcl",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucketMultipartUploads",
+        "s3:AbortMultipartUpload",
+        "s3:GetObjectTagging",
+        "s3:ListBucket",
+        "s3:PutObjectTagging",
+        "s3:DeleteObject",
+        "s3:ListMultipartUploadParts"
+      ],
+      "Resource": [
+        "arn:aws:s3:::charity-base-uk-downloads/*",
+        "arn:aws:s3:::charity-base-uk-images/*",
+        "arn:aws:s3:::charity-base-uk-downloads",
+        "arn:aws:s3:::charity-base-uk-images"
+      ]
+    }
+  ]
+}
+```

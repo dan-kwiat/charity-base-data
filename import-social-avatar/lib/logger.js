@@ -1,5 +1,5 @@
-const bunyan = require('bunyan')
+const bunyan = require("bunyan")
 
-const log = bunyan.createLogger({ name: 'main' })
+const log = bunyan.createLogger({ name: "main" })
 
 module.exports = log
