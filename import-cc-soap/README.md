@@ -15,8 +15,8 @@ This script imports trustee information from the [Charity Commission SOAP API](h
 - `yarn`
 - `cp .env-example .env` and update the variables in `.env` if necessary
 
-### Importing data
+### Importing Data
 
-- `yarn import-cc-soap`
-
-Estimated runtime: 2 hours
+```bash
+yarn import-cc-soap # Estimated runtime: 2 hours
+```

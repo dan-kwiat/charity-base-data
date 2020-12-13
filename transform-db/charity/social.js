@@ -1,18 +1,14 @@
-require('dotenv').config()
-const streamBatchPromise = require('stream-batch-promise')
-const getProgressBar = require('../lib/progress')
-const log = require('../lib/logger')
-const knex = require('../knex-connection')
+require("dotenv").config()
+const streamBatchPromise = require("stream-batch-promise")
+const getProgressBar = require("../lib/progress")
+const log = require("../lib/logger")
+const knex = require("../knex-connection")
 
-const {
-  BATCH_SIZE,
-  TABLE_CHARITY_JSON,
-  TABLE_SOCIAL,
-} = process.env
+const { BATCH_SIZE, TABLE_CHARITY_JSON, TABLE_SOCIAL } = process.env
 
-const PROGRESS_BAR = getProgressBar('Progress')
+const PROGRESS_BAR = getProgressBar("Progress")
 
-const parser = x => {
+const parser = (x) => {
   if (!x.chcId) return null
 
   return {
@@ -22,18 +18,17 @@ const parser = x => {
   }
 }
 
-const update = async arr => {
-  const updateQueries = arr
-    .map(({ chcId, image, social }) => (
-      knex(TABLE_CHARITY_JSON)
-        .where('chcId', '=', chcId)
-        .update({ image, social })
-    ))
+const update = async (arr) => {
+  const updateQueries = arr.map(({ chcId, image, social }) =>
+    knex(TABLE_CHARITY_JSON)
+      .where("chcId", "=", chcId)
+      .update({ image, social })
+  )
   if (updateQueries.length === 0) {
     return
   }
-  const transaction = knex.transaction(trx => {
-    return Promise.all(updateQueries.map(x => x.transacting(trx)))
+  const transaction = knex.transaction((trx) => {
+    return Promise.all(updateQueries.map((x) => x.transacting(trx)))
       .then(trx.commit)
       .catch(trx.rollback)
   })
@@ -43,11 +38,11 @@ const update = async arr => {
 const batchHandler = (items, counter) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const docs = items.map(parser).filter(x => x)
+      const docs = items.map(parser).filter((x) => x)
       await update(docs)
       PROGRESS_BAR.update(counter)
       resolve()
-    } catch(e) {
+    } catch (e) {
       reject(e)
     }
   })
@@ -55,10 +50,11 @@ const batchHandler = (items, counter) => {
 
 const f = async () => {
   try {
-    log.info(`Persisting data from '${TABLE_SOCIAL}' to '${TABLE_CHARITY_JSON}'`)
+    log.info(
+      `Persisting data from '${TABLE_SOCIAL}' to '${TABLE_CHARITY_JSON}'`
+    )
 
-    const countQuery = knex(TABLE_SOCIAL)
-      .count('*', { as: 'numCharities' })
+    const countQuery = knex(TABLE_SOCIAL).count("*", { as: "numCharities" })
 
     const { numCharities } = (await countQuery)[0]
 
@@ -83,31 +79,28 @@ const f = async () => {
         ) as image`),
         knex.raw(`JSON_OBJECT(
           'twitter', twitter,
+          'instagram', instagram,
           'facebook', facebook
         ) as social`),
       ])
       .from(`${TABLE_SOCIAL} as s`)
 
     const queryStream = query.stream()
-    queryStream.on('error', err => {
-      log.error('Query stream error')
+    queryStream.on("error", (err) => {
+      log.error("Query stream error")
       log.error(err)
       throw err
     })
 
     PROGRESS_BAR.start(numCharities, 0)
-    const total = await streamBatchPromise(
-      queryStream,
-      batchHandler,
-      {
-        batchSize: BATCH_SIZE,
-      }
-    )
+    const total = await streamBatchPromise(queryStream, batchHandler, {
+      batchSize: BATCH_SIZE,
+    })
     PROGRESS_BAR.update(total)
     PROGRESS_BAR.stop()
     log.info(`Successfully streamed through ${total} items`)
     await knex.destroy()
-  } catch(e) {
+  } catch (e) {
     log.error(e)
     process.exit()
   }

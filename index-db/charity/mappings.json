@@ -181,7 +181,7 @@
               "description": {
                 "type": "text"
               },
-              "fundingOrganization": {
+              "funder": {
                 "properties": {
                   "id": {
                     "type": "keyword"
@@ -588,6 +588,15 @@
       "social": {
         "properties": {
           "facebook": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "instagram": {
             "type": "text",
             "fields": {
               "keyword": {
