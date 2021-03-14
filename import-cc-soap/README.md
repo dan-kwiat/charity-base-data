@@ -1,8 +1,7 @@
-# CharityBase Data
+# CharityBase Data: Importing Data from CC SOAP API
 
-## Importing Data from CC SOAP API
-
-This script imports trustee information from the [Charity Commission SOAP API](https://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/Docs/DevGuideHome.aspx).
+This script imports trustee information from the
+[Charity Commission SOAP API](https://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/Docs/DevGuideHome.aspx).
 
 ### Requirements
 
@@ -12,10 +11,14 @@ This script imports trustee information from the [Charity Commission SOAP API](h
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing Data
+
+First, update the variables in `.env`, then:
 
 ```bash
 yarn import-cc-soap # Estimated runtime: 2 hours

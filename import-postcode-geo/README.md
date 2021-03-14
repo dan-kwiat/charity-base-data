@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Importing Postcode Geo Data
+# CharityBase Data: Importing Postcode Geo Data
 
 ### Requirements
 
@@ -10,11 +8,15 @@
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing Data
 
-- `yarn import-postcode-geos`
+First, update the variables in `.env`, then:
 
-Estimated runtime: 30 minutes
+```bash
+yarn import-postcode-geos # Estimated runtime: 30 minutes
+```

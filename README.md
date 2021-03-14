@@ -8,12 +8,11 @@ This repository contains multiple scripts for creating the CharityBase database.
 - [Download CC Files](./download-cc-extract)
 - [Import CC Files](./import-cc-extract)
 
-
 ## Importing Other Data Sources
 
-##### Charity Commission Website & API
+##### Charity Commission Additional Data
 
-- [Import CC Beta](./import-cc-beta)
+- [Import CC CSV File](./import-cc-csv-file)
 - [Import CC SOAP](./import-cc-soap)
 
 ##### Geography
@@ -30,16 +29,13 @@ This repository contains multiple scripts for creating the CharityBase database.
 - [Download GrantNav CSV](./download-grantnav)
 - [Import GrantNav CSV](./import-grantnav)
 
-
 ## Analysing the Data
 
 - [Classify Charities by Theme](./classify-charity)
 
-
 ## Transforming the Database
 
 - [Transform to Document Database](./transform-db)
-
 
 ## Indexing the Database
 
