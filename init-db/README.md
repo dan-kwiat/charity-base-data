@@ -12,10 +12,14 @@ This script creates the CharityBase relational database with empty tables.
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Creating database
+
+First, update the variables in `.env`, then:
 
 ```bash
 yarn create-db # Estimated runtime: 1 second

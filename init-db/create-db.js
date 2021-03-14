@@ -1,10 +1,10 @@
-require('dotenv').config()
-const log = require('./lib/logger')
-const connection = require('./lib/db')
+require("dotenv").config()
+const log = require("./lib/logger")
+const connection = require("./lib/db")
 
 const runSQL = (conn, sql) => {
   return new Promise((resolve, reject) => {
-    const query = conn.query(sql, err => {
+    const query = conn.query(sql, (err) => {
       if (err) {
         reject(err)
       }
@@ -22,7 +22,7 @@ const f = async () => {
   try {
     await createDatabase(connection, process.env.DB_NAME)
     connection.end()
-  } catch(e) {
+  } catch (e) {
     log.error(e.message)
     process.exit(0)
   }
