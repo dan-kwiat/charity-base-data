@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Importing CC Data
+# CharityBase Data: Importing CC Data
 
 This script imports the Charity Commission's .bcp files into a MySQL database.
 
@@ -17,10 +15,14 @@ This script imports the Charity Commission's .bcp files into a MySQL database.
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing data
+
+First, update the variables in `.env`, then:
 
 ```bash
 yarn import-cc # Estimated runtime: 2 minutes

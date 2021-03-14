@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Initialising the Database
+# CharityBase Data: Initialising the Database
 
 This script creates the CharityBase relational database with empty tables.
 

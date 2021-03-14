@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Downloading CC BCP Files
+# CharityBase Data: Downloading CC BCP Files
 
 This script downloads and unzips Charity Commission data from
 https://register-of-charities.charitycommission.gov.uk/register/full-register-download
