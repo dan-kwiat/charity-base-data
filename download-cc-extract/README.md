@@ -2,7 +2,8 @@
 
 ## Downloading CC BCP Files
 
-This script downloads and unzips Charity Commission data from http://data.charitycommission.gov.uk.
+This script downloads and unzips Charity Commission data from
+https://register-of-charities.charitycommission.gov.uk/register/full-register-download
 
 ### Requirements
 
@@ -11,10 +12,14 @@ This script downloads and unzips Charity Commission data from http://data.charit
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Downloading & Unzipping CC data
+
+First, update the variables in `.env`, then:
 
 ```bash
 yarn download-cc # Estimated runtime: 1 minute
