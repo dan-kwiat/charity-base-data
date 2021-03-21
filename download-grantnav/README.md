@@ -1,8 +1,6 @@
-# CharityBase Data
+# CharityBase Data: Downloading GrantNav CSV File
 
-## Downloading GrantNav CSV File
-
-This script downloads data from https://grantnav.threesixtygiving.org/developers.
+This script downloads data from https://grantnav.threesixtygiving.org/developers
 
 ### Requirements
 
@@ -11,11 +9,15 @@ This script downloads data from https://grantnav.threesixtygiving.org/developers
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Downloading GrantNav Data
 
-- `yarn download-grantnav`
+First, update the variables in `.env`, then:
 
-Estimated runtime: 3 minutes
+```bash
+yarn download-grantnav # Estimated runtime: 3 minutes
+```

@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Importing GrantNav Data
+# CharityBase Data: Importing GrantNav Data
 
 This script imports the GrantNav .csv file into the MySQL database.
 
@@ -17,11 +15,15 @@ This script imports the GrantNav .csv file into the MySQL database.
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing data
 
-- `yarn import-grantnav`
+First, update the variables in `.env`, then:
 
-Estimated runtime: 2 minutes.
+```bash
+yarn import-grantnav # Estimated runtime: 2 minutes
+```

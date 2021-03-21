@@ -5,7 +5,7 @@ const fetch = require("node-fetch")
 const getProgressBar = require("./lib/progress")
 const log = require("./lib/logger")
 
-const MB_TOTAL_ESTIMATE = 391
+const MB_TOTAL_ESTIMATE = 408
 const MB_PROGRESS_STEP = 1
 
 const download = (url, path, fileName) =>

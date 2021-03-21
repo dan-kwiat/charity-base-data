@@ -1,8 +1,7 @@
-# CharityBase Data
+# CharityBase Data: Importing Profile Images from Social Media
 
-## Importing Profile Images from Social Media
-
-This fetches the logos (in three different sizes) of about 40,000 charities, uploads them to S3 and saves the file locations to the database.
+This fetches the logos (in three different sizes) of about 40,000 charities,
+uploads them to S3 and saves the file locations to the database.
 
 ### Requirements
 
@@ -10,22 +9,36 @@ This fetches the logos (in three different sizes) of about 40,000 charities, upl
 - [Node v10+](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
 
-Before running this script the database must be initiated and social media handles imported (see the [other directories](../) in this repository for instruction).
+Before running this script the database must be initiated and social media
+handles imported (see the [other directories](../) in this repository for
+instruction).
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env`
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing Data
 
-- `yarn import-social-avatars`
+First, update the variables in `.env`, then:
 
-Estimated runtime: 3 hrs.
+```bash
+yarn import-social-avatars # Estimated runtime: 3 hours
+```
+
+You may want to play around with the offset & timeout env vars:
+
+```bash
+OFFSET=0
+REQUEST_TIMEOUT=5000
+```
 
 ### AWS Credentials
 
-The IAM user (defined by S3_ACCESS_KEY_ID env var) should have the following access management policy:
+The IAM user (defined by `S3_ACCESS_KEY_ID` env var) should have the following
+access management policy:
 
 ```json
 {

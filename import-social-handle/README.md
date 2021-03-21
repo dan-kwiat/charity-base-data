@@ -1,8 +1,7 @@
-# CharityBase Data
+# CharityBase Data: Scraping Social Media Handle from Charity Websites
 
-## Scraping Social Media Handle from Charity Websites
-
-Extracts twitter, facebook & instagram handles from charity websites. Also cleans the charity website field in the CC table.
+Extracts twitter, facebook & instagram handles from charity websites. Also
+cleans the charity website field in the CC table.
 
 ### Requirements
 
@@ -12,14 +11,18 @@ Extracts twitter, facebook & instagram handles from charity websites. Also clean
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Importing Data
 
-- `yarn import-social-handles`
+First, update the variables in `.env`, then:
 
-Estimated runtime: 6 hours
+```bash
+yarn import-social-handles # Estimated runtime: 6 hours
+```
 
 You may want to play around with the offset & timeout env vars:
 
