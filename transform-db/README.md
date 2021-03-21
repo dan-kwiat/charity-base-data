@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Transforming to a Document Database
+# CharityBase Data: Transforming to a Document Database
 
 ### Requirements
 
@@ -8,16 +6,20 @@
 - [Node v10+](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
 
-Before running this script the database must be initiated and all the data import scripts run (see the [other directories](../) in this repository for instruction).
-
+Before running this script the database must be initiated and all the data
+import scripts run (see the [other directories](../) in this repository for
+instruction).
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
-
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Writing components to charity_json & filter_json tables
+
+First, update the variables in `.env`.
 
 ```bash
 yarn transform-db # Estimated runtime: 38 minutes

@@ -1,6 +1,4 @@
-# CharityBase Data
-
-## Indexing Data in Elasticsearch
+# CharityBase Data: Indexing Data in Elasticsearch
 
 ### Requirements
 
@@ -8,16 +6,19 @@
 - [Node v10+](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
 
-Before running this script the database must be initiated and transformed to JSON (see the [other directories](../) in this repository for instruction).
-
+Before running this script the database must be initiated and transformed to
+JSON (see the [other directories](../) in this repository for instruction).
 
 ### Installing
 
-- `yarn`
-- `cp .env-example .env` and update the variables in `.env` if necessary
-
+```bash
+yarn
+cp .env-example .env
+```
 
 ### Persisting Documents to Elasticsearch
+
+First, update the variables in `.env`.
 
 ```bash
 yarn index-db # Estimated runtime: 17 minutes
@@ -34,7 +35,6 @@ Or just filter documents:
 ```bash
 yarn index-db:filter # Estimated runtime: 6 minutes
 ```
-
 
 ### Deleting Index
 
